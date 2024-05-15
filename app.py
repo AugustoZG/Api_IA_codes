@@ -3,16 +3,9 @@ from PIL import Image
 from pyzbar.pyzbar import decode
 import io
 import base64
-from dotenv import load_dotenv
 import os
-from flask_cors import CORS
-
-load_dotenv()
 
 app = Flask(__name__)
-CORS(app)
-
-app.config['DEBUG'] = os.environ.get('FLASK_DEBUG')
 
 @app.route('/process-image', methods=['POST'])
 def process_image():
@@ -32,9 +25,5 @@ def process_image():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-@app.route('/readiness_check')
-def readiness_check():
-    return 'OK', 200
-
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=8080)
